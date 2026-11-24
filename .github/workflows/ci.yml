@@ -1,0 +1,39 @@
+# CI: build with the C# compiler that ships with Windows and run the built-in checks.
+# Least privilege: read-only token; actions pinned to full commit SHAs (version in the comment).
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-check:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Build
+        shell: cmd
+        run: build.cmd
+      - name: Core checks (state file, tool validation, recovery)
+        shell: cmd
+        run: build\KarincaCark.exe --check
+      # The window checks need an interactive desktop session. Hosted runners do not guarantee one,
+      # so these steps report but do not fail the job. Run them locally for the real result.
+      - name: Wheel checks (informational)
+        continue-on-error: true
+        shell: cmd
+        run: build\KarincaCark.exe --wheel-check
+      - name: Window lifecycle checks (informational)
+        continue-on-error: true
+        shell: cmd
+        run: build\KarincaCark.exe --context-check
+      - name: UI checks (informational)
+        continue-on-error: true
+        shell: cmd
+        run: build\KarincaCark.exe --ui-check

@@ -1,0 +1,7 @@
+build/
+data/
+*.exe
+*.pdb
+*.sqlite3
+.env
+.env.*
