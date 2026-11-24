@@ -35,7 +35,7 @@ build\KarincaCark.exe --check          :: 26 core checks (state file, tool valid
 build\KarincaCark.exe --wheel-check    :: 32 wheel checks (geometry, cancel, keyboard, sub-wheel, paging, real launch)
 build\KarincaCark.exe --context-check  :: 10 window lifecycle checks
 build\KarincaCark.exe --ui-check       :: 17 panel/event checks (layout scale factors 1, 1.25, 1.5)
-build\KarincaCark.exe --render-wheel "C:\full\output\folder"   :: renders the wheel to PNG (dark/light)
+build\KarincaCark.exe --render-wheel "<output-folder>"   :: renders the wheel to PNG (dark/light)
 ```
 
 The checks use isolated temporary folders under `build\checks` and start only their own test helper (`build\checks-bin\LaunchProbe.exe`).
